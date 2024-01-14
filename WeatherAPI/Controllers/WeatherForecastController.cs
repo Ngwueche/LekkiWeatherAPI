@@ -6,7 +6,7 @@ namespace WeatherAPI.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private static readonly List<string> Summaries = new List<string>
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
@@ -25,35 +25,46 @@ namespace WeatherAPI.Controllers
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+                Summary = Summaries[Random.Shared.Next(Summaries.Count)]
             })
             .ToArray());
         }
-        [HttpGet(Name = "get-forecast-by-Id/{id}")]
+
+        [HttpGet("GetWeatherForecastById/{id}")]
         public IActionResult Get(int id)
         {
-            var query = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var list = Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
+                Id = index,
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                TemperatureC = Random.Shared.Next(-18, 60),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            });
-            var result = query.ToList().FirstOrDefault(x => x.Id == id);
-            if (result == null) return NotFound("No record with the query string.");
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Count)]
+            }).ToArray();
+            var result = list.FirstOrDefault(x => x.Id == id);
+            if (result == null)
+            {
+                return NotFound($"Not Found with the id {id}");
+            }
             return Ok(result);
         }
-        //[HttpPost(Name = "AddRecord")]
-        //public IActionResult AddRecord([FromBody] WeatherForecast weatherForecast)
-        //{
-        //    var record = new WeatherForecast
-        //    {
-        //        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(7)),
-        //        TemperatureC = Random.Shared.Next(-18, 30),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //    };
-        //    if (record == null) return BadRequest("Supply required field!");
-        //    return Ok(record);
-        //}
+        [HttpPost("AddToSummary")]
+        public IActionResult Add(int id)
+        {
+            var list = Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            {
+                Id = index,
+                Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Count)]
+            }).ToArray();
+            var result = list.FirstOrDefault(x => x.Id == id);
+            if (result == null)
+            {
+                return NotFound($"Not Found with the id {id}");
+            }
+            return Ok(result);
+        }
+
 
     }
 }
