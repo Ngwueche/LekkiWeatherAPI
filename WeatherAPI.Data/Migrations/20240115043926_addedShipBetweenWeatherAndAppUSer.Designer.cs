@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WeatherAPI.Data;
 
@@ -11,9 +12,11 @@ using WeatherAPI.Data;
 namespace WeatherAPI.Data.Migrations
 {
     [DbContext(typeof(DbContextWeather))]
-    partial class DbContextWeatherModelSnapshot : ModelSnapshot
+    [Migration("20240115043926_addedShipBetweenWeatherAndAppUSer")]
+    partial class addedShipBetweenWeatherAndAppUSer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
