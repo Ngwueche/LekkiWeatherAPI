@@ -2,13 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using WeatherAPI.Model.Entities;
 
-namespace WeatherAPI.Data
+namespace WeatherAPI.Data;
+
+public class DbContextWeather : IdentityDbContext<ApplicationUser>
 {
-    public class DbContextWeather : IdentityDbContext<ApplicationUser>
-    {
-        public DbContextWeather(DbContextOptions<DbContextWeather> options) : base(options) { }
+    public DbContextWeather(DbContextOptions<DbContextWeather> options) : base(options) { }
 
-        public DbSet<WeatherForecast> WeatherForecasts { get; set; }
+    public DbSet<WeatherForecast> WeatherForecasts { get; set; }
 
-    }
 }
